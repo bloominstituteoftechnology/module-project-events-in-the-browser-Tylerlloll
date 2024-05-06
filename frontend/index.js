@@ -70,8 +70,60 @@ function moduleProject2() {
 
   document.addEventListener('keydown', evt => {
     // 👉 TASK 3 - Use the arrow keys to highlight a new square 👈
+    console.log(evt.key);
+    let isUp = evt.key === keys.up
+    let isDown = evt.key === keys.down
+    let isLeft = evt.key === keys.left
+    let isRight = evt.key === keys.right
+    let isSpacebar = evt.key === keys.space
 
+    let targeted = document.querySelector('.targeted');
+
+    if (isUp) {
+      if (targeted.parentElement.previousElementSibling) {
+        let idx = Array.from(targeted.parentElement.children).indexOf(targeted)
+        targeted.classList.remove('targeted')
+        targeted.parentElement.previousElementSibling.children[idx].classList.add('targeted');
+      }
+    } else if (isDown) {
+      if (targeted.parentElement.nextElementSibling) {
+        let idx = Array.from(targeted.parentElement.children).indexOf(targeted)
+        targeted.classList.remove('targeted')
+        targeted.parentElement.nextElementSibling.children[idx].classList.add('targeted');
+      } else {
+        console.log('can not go down')
+      }
+    } else if (isLeft) {
+      console.log('you clicked Left')
+      if (targeted.previousElementSibling) {
+        targeted.classList.remove('targeted')
+        targeted.previousElementSibling.classList.add('targeted')
+      } else {
+        console.log('can not go left')
+      }
+    } else if (isRight) {
+      console.log('you clicked Right')
+      if (targeted.nextElementSibling) {
+        targeted.classList.remove('targeted')
+        targeted.nextElementSibling.classList.add('targeted')
+    }
+  }
     // 👉 TASK 4 - Use the space bar to exterminate a mosquito 👈
+    else if (isSpacebar) {
+      let mosquito = targeted.firstChild
+      
+      if (mosquito && mosquito.dataset.status === 'alive') {
+        mosquito.dataset.status = 'dead'
+        mosquito.parentElement.style.backgroundColor = 'red'
+      }
+      let liveMosquitoes = document.querySelectorAll('[data-status=alive]')
+      if (!liveMosquitoes.length) {
+        console.log('game over')
+      }
+    
+    }
+
+  
 
     // 👉 TASK 5 - End the game 👈
   })
